@@ -215,4 +215,18 @@ To define the semantics of the Eva language, we'll be using the BNF (Backus-Naur
 - Interpret strings
 - Interpret addition
 
+## Lecture 6: Variables and Environments
+
+Environment: it's a storage, a repository of all variables and functions defined in a scope
+
+- Environment Record: the storage, the table (map)
+- Optional reference to Parent Environment
+  - e.g. local scope of a function can access the global scope
+
+The API of an environment is to
+
+- Define a variable (e.g. `(var x 10)`)
+- Assign a new value to a variable (e.g. `(set x 10)`)
+- Lookup a variable (e.g. `x`)
+
 </samp>
