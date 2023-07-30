@@ -2,6 +2,9 @@ const assert = require('assert');
 
 class Eva {
   eval(exp) {
+    // ----------------------------------------
+    // Self-evaluating expressions
+
     if (isNumber(exp)) {
       return exp;
     }
@@ -10,8 +13,23 @@ class Eva {
       return exp.slice(1, -1);
     }
 
+    // ----------------------------------------
+    // Math operations
+
     if (exp[0] === '+') {
       return this.eval(exp[1]) + this.eval(exp[2]);
+    }
+
+    if (exp[0] === '*') {
+      return this.eval(exp[1]) * this.eval(exp[2]);
+    }
+
+    if (exp[0] === '-') {
+      return this.eval(exp[1]) - this.eval(exp[2]);
+    }
+
+    if (exp[0] === '/') {
+      return this.eval(exp[1]) / this.eval(exp[2]);
     }
 
     throw 'Unimplemented';
@@ -48,5 +66,14 @@ assert.strictEqual(
   eva.eval(['+', ['+', ['+', 1, 2], 2], ['+', ['+', 1, 2], 2]]),
   10,
 );
+
+// multiplication
+assert.strictEqual(eva.eval(['+', ['*', 3, 2], 5]), 11);
+
+// subtraction
+assert.strictEqual(eva.eval(['+', ['-', 3, 2], 5]), 6);
+
+// division
+assert.strictEqual(eva.eval(['+', ['/', 2, 2], 5]), 6);
 
 console.log('All assertions passed!');
