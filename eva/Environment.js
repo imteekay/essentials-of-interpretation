@@ -11,16 +11,24 @@ class Environment {
   }
 
   lookup(name) {
-    console.log(this.parent);
-    if (
-      !this.record.hasOwnProperty(name) &&
-      this.parent &&
-      !this.parent.record.hasOwnProperty(name)
-    ) {
+    return this.resolve(name).record[name];
+  }
+
+  assign(name, value) {
+    this.resolve(name).record[name] = value;
+    return value;
+  }
+
+  resolve(name) {
+    if (this.record.hasOwnProperty(name)) {
+      return this;
+    }
+
+    if (this.parent == null) {
       throw new ReferenceError(`Variable "${name}" is not defined.`);
     }
 
-    return this.record[name] || this.parent.record[name];
+    return this.parent.resolve(name);
   }
 }
 
