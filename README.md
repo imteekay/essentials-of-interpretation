@@ -211,4 +211,8 @@ All functions in Eva are closures.
 
 To define the semantics of the Eva language, we'll be using the BNF (Backus-Naur Form)
 
+- Interpret numbers
+- Interpret strings
+- Interpret addition
+
 </samp>
