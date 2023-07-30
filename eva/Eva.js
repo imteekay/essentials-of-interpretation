@@ -22,19 +22,27 @@ class Eva {
     // Math operations
 
     if (exp[0] === '+') {
-      return this.eval(exp[1]) + this.eval(exp[2]);
+      return this.eval(exp[1], env) + this.eval(exp[2], env);
     }
 
     if (exp[0] === '*') {
-      return this.eval(exp[1]) * this.eval(exp[2]);
+      return this.eval(exp[1], env) * this.eval(exp[2], env);
     }
 
     if (exp[0] === '-') {
-      return this.eval(exp[1]) - this.eval(exp[2]);
+      return this.eval(exp[1], env) - this.eval(exp[2], env);
     }
 
     if (exp[0] === '/') {
-      return this.eval(exp[1]) / this.eval(exp[2]);
+      return this.eval(exp[1], env) / this.eval(exp[2], env);
+    }
+
+    // ----------------------------------------
+    // Variable declaration
+
+    if (exp[0] === 'begin') {
+      const blockEnv = new Environment({}, env);
+      return this._evalBlock(exp, blockEnv);
     }
 
     // ----------------------------------------
@@ -42,7 +50,7 @@ class Eva {
 
     if (exp[0] === 'var') {
       const [_, name, value] = exp;
-      return env.define(name, this.eval(value));
+      return env.define(name, this.eval(value, env));
     }
 
     // ----------------------------------------
@@ -52,7 +60,18 @@ class Eva {
       return env.lookup(exp);
     }
 
-    throw `Unimplemented ${JSON.stringify(exp)}`;
+    throw `Unimple mented ${JSON.stringify(exp)}`;
+  }
+
+  _evalBlock(block, env) {
+    let result;
+    const [_tag, ...expressions] = block;
+
+    expressions.forEach((exp) => {
+      result = this.eval(exp, env);
+    });
+
+    return result;
   }
 }
 
@@ -118,5 +137,30 @@ assert.strictEqual(eva.eval(['var', 'isTrue', 'true']), true);
 
 assert.strictEqual(eva.eval(['var', 'z', ['+', 2, 2]]), 4);
 assert.strictEqual(eva.eval('z'), 4);
+
+assert.strictEqual(
+  eva.eval([
+    'begin',
+    ['var', 'x', 10],
+    ['var', 'y', 20],
+    ['+', ['*', 'x', 'y'], 30],
+  ]),
+  230,
+);
+
+assert.strictEqual(
+  eva.eval(['begin', ['var', 'x', 10], ['begin', ['var', 'x', 20], 'x'], 'x']),
+  10,
+);
+
+assert.strictEqual(
+  eva.eval([
+    'begin',
+    ['var', 'x', 10],
+    ['var', 'result', ['begin', ['var', 'y', ['+', 'y', 10]], 'y']],
+    'result',
+  ]),
+  20,
+);
 
 console.log('All assertions passed!');

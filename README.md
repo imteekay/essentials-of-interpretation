@@ -229,4 +229,22 @@ The API of an environment is to
 - Assign a new value to a variable (e.g. `(set x 10)`)
 - Lookup a variable (e.g. `x`)
 
+## Lecture 7: Blocks: expression groups and Nested Scopes
+
+Blocks are used to group expressions.
+
+- Block scope: create a new environment
+
+```js
+let x = 10;
+console.log(x); // 10
+
+{
+  let x = 20;
+  console.log(x); // 20
+}
+
+console.log(x); // 10
+```
+
 </samp>
