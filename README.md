@@ -253,4 +253,10 @@ console.log(x); // 10
 - Implementing if expressions
 - Implementing while expressions
 
+## Lecture 9: Back to parsers: S-expression to AST
+
+- Using the generated parser from syntax-cli based on BNF for tests
+- Add a test util to abstract the parser and the test expectation
+- Now it's enabled to run the actual code in a string format rather than array of arrays
+
 </samp>

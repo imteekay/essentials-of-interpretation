@@ -5,5 +5,12 @@
   "main": "index.js",
   "repository": "git@github.com:imteekay/essentials-of-interpretation.git",
   "author": "imteekay <leandrotk100@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "syntax-cli": "^0.1.27"
+  },
+  "scripts": {
+    "test": "node eva/__tests__/run.js",
+    "parse": "syntax-cli --grammar parser/eva-grammar.bnf --mode LALR1 --output parser/evaParser.js"
+  }
 }
