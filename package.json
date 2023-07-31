@@ -1,0 +1,9 @@
+{
+  "name": "essentials-of-interpretation",
+  "version": "1.0.0",
+  "description": "Building an Interpreter from scratch",
+  "main": "index.js",
+  "repository": "git@github.com:imteekay/essentials-of-interpretation.git",
+  "author": "imteekay <leandrotk100@gmail.com>",
+  "license": "MIT"
+}
