@@ -6,6 +6,7 @@ const tests = [
   require('./math-test'),
   require('./variables-test'),
   require('./block-test'),
+  require('./if-expression-test'),
 ];
 
 const eva = new Eva(
