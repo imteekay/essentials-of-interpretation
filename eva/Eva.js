@@ -102,6 +102,20 @@ class Eva {
       return this.eval(alternate, env);
     }
 
+    // ----------------------------------------
+    // while-expression
+
+    if (exp[0] === 'while') {
+      const [_, condition, body] = exp;
+      let result;
+
+      while (this.eval(condition, env)) {
+        result = this.eval(body, env);
+      }
+
+      return result;
+    }
+
     throw `Unimple mented ${JSON.stringify(exp)}`;
   }
 

@@ -7,6 +7,7 @@ const tests = [
   require('./variables-test'),
   require('./block-test'),
   require('./if-expression-test'),
+  require('./while-expression-test'),
 ];
 
 const eva = new Eva(
