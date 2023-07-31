@@ -247,4 +247,8 @@ console.log(x); // 10
 console.log(x); // 10
 ```
 
+## Lecture 8: Control flow: If and While expressions
+
+- Moving all tests to the `__tests__` folder to make it more maintainable
+
 </samp>
