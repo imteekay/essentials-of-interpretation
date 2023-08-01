@@ -259,4 +259,10 @@ console.log(x); // 10
 - Add a test util to abstract the parser and the test expectation
 - Now it's enabled to run the actual code in a string format rather than array of arrays
 
+## Lecture 10: Built-in and Native functions
+
+- Math and comparison operators should be built-in functions
+- Because they are built-in, we don't need to interpret them, just use native code
+- They should be part of the global environment, it will hold all built-in functions
+
 </samp>

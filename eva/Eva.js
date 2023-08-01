@@ -1,8 +1,7 @@
-const assert = require('assert');
 const Environment = require('./Environment');
 
 class Eva {
-  constructor(global = new Environment()) {
+  constructor(global = GlobalEnvironment) {
     this.global = global;
   }
 
@@ -10,54 +9,12 @@ class Eva {
     // ----------------------------------------
     // Self-evaluating expressions
 
-    if (isNumber(exp)) {
+    if (this._isNumber(exp)) {
       return exp;
     }
 
-    if (isString(exp)) {
+    if (this._isString(exp)) {
       return exp.slice(1, -1);
-    }
-
-    // ----------------------------------------
-    // Math operations
-
-    if (exp[0] === '+') {
-      return this.eval(exp[1], env) + this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '*') {
-      return this.eval(exp[1], env) * this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '-') {
-      return this.eval(exp[1], env) - this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '/') {
-      return this.eval(exp[1], env) / this.eval(exp[2], env);
-    }
-
-    // ----------------------------------------
-    // Comparison operators
-
-    if (exp[0] === '>') {
-      return this.eval(exp[1], env) > this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '>=') {
-      return this.eval(exp[1], env) >= this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '<') {
-      return this.eval(exp[1], env) < this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '<=') {
-      return this.eval(exp[1], env) <= this.eval(exp[2], env);
-    }
-
-    if (exp[0] === '=') {
-      return this.eval(exp[1], env) === this.eval(exp[2], env);
     }
 
     // ----------------------------------------
@@ -87,7 +44,7 @@ class Eva {
     // ----------------------------------------
     // Variable access
 
-    if (isVariableName(exp)) {
+    if (this._isVariableName(exp)) {
       return env.lookup(exp);
     }
 
@@ -116,7 +73,23 @@ class Eva {
       return result;
     }
 
-    throw `Unimple mented ${JSON.stringify(exp)}`;
+    // ----------------------------------------
+    // function calls
+    //
+    // (print "Hello World")
+    // (+ 1 1)
+    // (> 1 1)
+
+    if (Array.isArray(exp)) {
+      const fn = this.eval(exp[0], env);
+      const args = exp.slice(1).map((expression) => this.eval(expression, env));
+
+      if (typeof fn === 'function') {
+        return fn(...args);
+      }
+    }
+
+    throw `Unimplemented ${JSON.stringify(exp)}`;
   }
 
   _evalBlock(block, env) {
@@ -129,18 +102,71 @@ class Eva {
 
     return result;
   }
+
+  _isNumber(exp) {
+    return typeof exp === 'number';
+  }
+
+  _isString(exp) {
+    return typeof exp === 'string' && exp[0] === '"' && exp.slice(-1) === '"';
+  }
+
+  _isVariableName(exp) {
+    return typeof exp === 'string' && /^[+\-*/<>=a-zA-Z0-9_]*$/.test(exp);
+  }
 }
 
-function isNumber(exp) {
-  return typeof exp === 'number';
-}
+const GlobalEnvironment = new Environment({
+  null: null,
+  true: true,
+  false: false,
+  VERSION: '0.1',
 
-function isString(exp) {
-  return typeof exp === 'string' && exp[0] === '"' && exp.slice(-1) === '"';
-}
+  //math
 
-function isVariableName(exp) {
-  return typeof exp === 'string' && /^[a-zA-Z][a-zA-Z0-9_]*$/.test(exp);
-}
+  '+': (op1, op2) => {
+    return op1 + op2;
+  },
+
+  '-': (op1, op2 = null) => {
+    return op2 == null ? -op1 : op1 - op2;
+  },
+
+  '*': (op1, op2) => {
+    return op1 * op2;
+  },
+
+  // comparison
+
+  '/': (op1, op2) => {
+    return op1 / op2;
+  },
+
+  '>': (op1, op2) => {
+    return op1 > op2;
+  },
+
+  '<': (op1, op2) => {
+    return op1 < op2;
+  },
+
+  '<=': (op1, op2) => {
+    return op1 <= op2;
+  },
+
+  '>=': (op1, op2) => {
+    return op1 >= op2;
+  },
+
+  '=': (op1, op2) => {
+    return op1 === op2;
+  },
+
+  // console output
+
+  print: (...args) => {
+    console.log(...args);
+  },
+});
 
 module.exports = Eva;

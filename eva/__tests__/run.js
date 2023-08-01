@@ -1,5 +1,4 @@
 const Eva = require('../Eva');
-const Environment = require('../Environment');
 
 const tests = [
   require('./self-eval-test'),
@@ -8,16 +7,11 @@ const tests = [
   require('./block-test'),
   require('./if-expression-test'),
   require('./while-expression-test'),
+  require('./built-in-function-test'),
+  require('./print-test'),
 ];
 
-const eva = new Eva(
-  new Environment({
-    null: null,
-    true: true,
-    false: false,
-    VERSION: '0.1',
-  }),
-);
+const eva = new Eva();
 
 tests.forEach((test) => test(eva));
 
