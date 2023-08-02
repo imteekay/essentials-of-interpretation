@@ -74,6 +74,12 @@ class Eva {
     }
 
     // ----------------------------------------
+    // function declarations
+
+    if (exp[0] === 'def') {
+    }
+
+    // ----------------------------------------
     // function calls
     //
     // (print "Hello World")
@@ -84,12 +90,32 @@ class Eva {
       const fn = this.eval(exp[0], env);
       const args = exp.slice(1).map((expression) => this.eval(expression, env));
 
+      // Native functions
+
       if (typeof fn === 'function') {
         return fn(...args);
       }
+
+      // User-defined functions
+
+      const activationRecord = {};
+
+      fn.params.forEach((param, index) => {
+        activationRecord[param] = args[index];
+      });
+
+      const activationEnv = new Environment(activationRecord, fn.env);
+
+      return this._evalBody(fn.body, activationEnv);
     }
 
     throw `Unimplemented ${JSON.stringify(exp)}`;
+  }
+
+  _evalBody(body, env) {
+    return body[0] === 'begin'
+      ? this._evalBlock(body, env)
+      : this.eval(body, env);
   }
 
   _evalBlock(block, env) {

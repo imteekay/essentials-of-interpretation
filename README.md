@@ -265,4 +265,14 @@ console.log(x); // 10
 - Because they are built-in, we don't need to interpret them, just use native code
 - They should be part of the global environment, it will hold all built-in functions
 
+## Lecture 11: User-defined functions, Activation Records and Closures
+
+- A closure is a function which captures its definition environment
+  - it's aware all defined variables and values declated in the environment the function is defined
+- For the function scope, it should have a new environment
+  - with all the function params
+  - and with the parent scope values
+- The function scope is created and then the body is evaluated
+  - The body can be a block or not a block
+
 </samp>
