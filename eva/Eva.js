@@ -77,6 +77,14 @@ class Eva {
     // function declarations
 
     if (exp[0] === 'def') {
+      const [_tag, name, params, body] = exp;
+      const fn = {
+        params,
+        body,
+        env, // closure
+      };
+
+      return env.define(name, fn);
     }
 
     // ----------------------------------------
