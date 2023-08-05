@@ -275,4 +275,8 @@ console.log(x); // 10
 - The function scope is created and then the body is evaluated
   - The body can be a block or not a block
 
+## Lecture 14: Syntactic sugar: Switch, For, Inc, Dec operators
+
+- Syntactic Sugar: a nicer syntax for existing semantics
+
 </samp>

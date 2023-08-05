@@ -20,9 +20,10 @@ module.exports = (eva) => {
         (begin
           (var z (+ x y))
           (def inner (w)
-            (+ (+ w z) value))))
-          inner
-      
+            (+ (+ w z) value))
+            inner
+          ))
+
       (var fn (calc 10 20))
       (fn 30)
     )`,
