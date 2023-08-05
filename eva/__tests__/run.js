@@ -9,6 +9,7 @@ const tests = [
   require('./while-expression-test'),
   require('./built-in-function-test'),
   require('./print-test'),
+  require('./user-defined-function-test'),
 ];
 
 const eva = new Eva();
