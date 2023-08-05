@@ -5,9 +5,10 @@ module.exports = (eva) => {
     eva,
     `(begin
         (def onClick (callback)
-          (var x 10)
-          (var y 20)
-          (callback (+ x y)))
+          (begin
+            (var x 10)
+            (var y 20)
+            (callback (+ x y))))
 
         (onClick (lambda (data) (* data 10)))
       )`,

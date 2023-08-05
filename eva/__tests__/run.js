@@ -10,6 +10,7 @@ const tests = [
   require('./built-in-function-test'),
   require('./print-test'),
   require('./user-defined-function-test'),
+  require('./lambda-function-test'),
 ];
 
 const eva = new Eva();
