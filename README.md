@@ -4,9 +4,9 @@
 
 These are notes from the [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation) course by Dmitry Soshnikov
 
-## Compilers crash course
+# Compilers crash course
 
-### Lecture 1: Parsers, ASTs, Interpreters, and Compilers
+## Lecture 1: Parsers, ASTs, Interpreters, and Compilers
 
 - Tokenizer (lexical analysis)
   - It builds tokens
@@ -38,7 +38,7 @@ These are notes from the [Essentials of Interpretation](https://dmitrysoshnikov.
   - In the very low level, the interpreter exists: the CPU.
     - If you compile the code into machine code (x86/x64), the CPU will be able to execute it
 
-### Lecture 2: AST Interpreters and Virtual Machines
+## Lecture 2: AST Interpreters and Virtual Machines
 
 - AST based interpreters
   - Using tree data structures to represent the source code
