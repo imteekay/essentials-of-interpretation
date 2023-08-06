@@ -279,4 +279,18 @@ console.log(x); // 10
 
 - Syntactic Sugar: a nicer syntax for existing semantics
 
+## Lecture 15: Object-oriented Eva: Classes
+
+- A class is just an environment
+  - It's a named environment which can be instantiated and create objects
+- The environment structure has two parts
+  - The environment record where values are stored
+  - An optional reference to the Parent Environment
+- The class "environment" is structured the same way
+  - The environment record is used to store methods defined in the class
+  - The parent reference is used to implement inheritance
+- The instance is also an environment which will
+  - store some properties/attributes
+  - the parent link is set to the class, so it can find methods defined in the class and call these method in the needed context
+
 </samp>
