@@ -7,6 +7,13 @@ class Eva {
     this._transformer = new Transformer();
   }
 
+  /**
+   * Evaluates global code wrapping into a block.
+   */
+  evalGlobal(exp) {
+    return this._evalBody(exp, this.global);
+  }
+
   eval(exp, env = this.global) {
     // ----------------------------------------
     // Self-evaluating expressions
@@ -126,6 +133,14 @@ class Eva {
       const classEnv = new Environment({}, parentEnv);
       this._evalBody(body, classEnv);
       return env.define(name, classEnv);
+    }
+
+    // ----------------------------------------
+    // Super expression
+
+    if (exp[0] === 'super') {
+      const [_tag, className] = exp;
+      return this.eval(className, env).parent;
     }
 
     // ----------------------------------------

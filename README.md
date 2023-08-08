@@ -293,4 +293,10 @@ console.log(x); // 10
   - store some properties/attributes
   - the parent link is set to the class, so it can find methods defined in the class and call these method in the needed context
 
+## Lecture 16: Class inheritance and Super calls
+
+- Inheritance: classes can have super or parent classes
+- If set to `null`, it doesn't have it and the class inherit the global environment. If set to a declared class, it can get properties and methods from the set parent class
+- The `super` expression returns the parent class/environment so the child class can reuse properties and methods from the parent class
+
 </samp>
