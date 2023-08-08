@@ -299,4 +299,10 @@ console.log(x); // 10
 - If set to `null`, it doesn't have it and the class inherit the global environment. If set to a declared class, it can get properties and methods from the set parent class
 - The `super` expression returns the parent class/environment so the child class can reuse properties and methods from the parent class
 
+## Lecture 17: Code isolation: Modules and Imports
+
+- Modules are names environments
+  - Define the module with the `module` syntax
+  - Separate and import a module using the the `import` syntax
+
 </samp>
