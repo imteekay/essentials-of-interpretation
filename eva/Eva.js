@@ -140,7 +140,6 @@ class Eva {
 
     // ----------------------------------------
     // Super expression
-
     if (exp[0] === 'super') {
       const [_tag, className] = exp;
       return this.eval(className, env).parent;
