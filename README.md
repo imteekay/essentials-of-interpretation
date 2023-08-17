@@ -41,6 +41,9 @@ These are notes from the [Essentials of Interpretation](https://dmitrysoshnikov.
   - How scope works?
   - How functions are called? What's call stack?
   - How do you pass parameters?
+  - e.g. comparing code between JavaScript and PHP (js-vs-php-scoping-rules)
+    - they have different scoping rules
+    - all functions in JavaScript are known to be closures so they kept the parent environment so they can reuse all values defined outside them like variables and functions
 - Interpreters vs Compilers
   - Interpreted languages
     - implement semantics themselves
