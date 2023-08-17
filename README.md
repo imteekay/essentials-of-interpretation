@@ -48,9 +48,9 @@ These are notes from the [Essentials of Interpretation](https://dmitrysoshnikov.
   - Interpreted languages
     - implement semantics themselves
     - AST-based (recursive) interpreters — it's a tree-based data structure
-    - Bytecode-interpreters (VM) — a plain array of code instructions (close to real machines)
+    - Bytecode-interpreters (VMs) — a plain array of code instructions (close to real machines)
   - Compiled languages
-    - delegate semantics to a target language
+    - the compiler doesn't execute code, it delegates semantics to a target language
     - Ahead-of-time (AOT) compilers. e.g. C++
     - Just-in-time (JIT) compilers. e.g. JS
     - AST-transformers (transpilers) — high level compilers
