@@ -133,9 +133,13 @@ Array-based:
   - The purpose of JIT compilation is to improve performance of the heavy weight operations
   - Call code generator in runtime, generate native code, and the CPU can interpret that
   - Next time the code is called, it gets from the cache so it doesn't need to go through all the steps again
-- AST Transformer — high level translation, also called transpiler
-  - transform an AST into another AST
-  - it can be the same language (e.g. JS to older versions of JS) or completely different language (e.g. Python to JavaScript)
+- AST Transformer — high level translation, also called transpiler (transformer + compiler)
+  - Transform an AST into another AST
+  - It can be the same language (e.g. JS to older versions of JS) or a completely different language (e.g. Python to JavaScript)
+
+Is JavaScript, Python, C++, etc are interpreted of compilerd language? This is a wrong question. What it's interpreted or compiled are the implementations not the language itself.
+
+A language can have multiple ways to be handled. It can be compiled or interpreted using AST interpreter, Bytecode interpreter, AOT compiler, JIT compiler, or AST transformer. What really matters is if the runtime semantics are preserved.
 
 ## Lecture 4: Eva Programming Language
 
