@@ -65,18 +65,60 @@ These are notes from the [Essentials of Interpretation](https://dmitrysoshnikov.
 - AST based interpreters
   - Using tree data structures to represent the source code
 - Bytecode based interpreters (VMs)
-  - it has an extra step called bytecode emitter phase to generate bytecode
-  - AST can take more space and slower to traverse
-  - it's plain array of bytes
-  - types
-    - stack-based machines
-      - stack for operands and operators
-      - the result is on top of the stack
-    - regiter-based machines
-      - set of virtual registers
-      - register is a data storage
-      - the result is in an accumulator register
-      - mapped to real via register
+  - The difference is the format
+  - It has an extra step called bytecode emitter phase to generate bytecode
+  - It's an optimization for storage: AST can take more space and is slower to traverse
+    - it's plain array of bytes which takes less space which's closer to real machines
+  - Types
+    - Stack-based machines
+      - Stack for operands and operators
+      - The result is on top of the stack
+    - Regiter-based machines
+      - Set of virtual registers
+      - Register is a data storage
+      - The result is in an accumulator register
+      - Mapped to real via register
+
+This source code:
+
+```
+x = 15;
+x + 10 - 5
+```
+
+Can have different AST representation formats:
+
+JSON-based:
+
+```js
+{
+  type: "Program",
+  statements: [
+    {
+      type: "Assignment",
+      left: {
+        type: "Identifier",
+        value: "x"
+      },
+      right: {
+        type: "Literal",
+        value: 15
+      }
+    }
+  ]
+}
+```
+
+Array-based:
+
+```
+[program, [
+  [assign, x, 15],
+  [sub,
+    [add, x, 10],
+    5]
+]]
+```
 
 ## Lecture 3: Compilers — AOT, JIT, Transpiler
 
