@@ -123,8 +123,10 @@ Array-based:
 ## Lecture 3: Compilers — AOT, JIT, Transpiler
 
 - AOT Compiler — Ahead of time translation
-  - it's done before execution
-  - code generator
+  - The steps: source code -> tokenizer (tokens) -> parser (AST) -> code generator (IR) -> native code (x86 / x64) -> CPU.
+  - The compilation is done before execution time (runtime)
+  - The CPU will execute the code
+  - The code generator is responsible to generate the native code
     - produces intermediate representation
     - produces native code (x86 / x64)
 - JIT Compiler — translation at runtime
