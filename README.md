@@ -261,7 +261,7 @@ This representation has a name and it's called "S-expression" or "Symbolic expre
 
 All functions in Eva are closures.
 
-- Lambda expression: anynmous function
+- Lambda expression / anonymous function
 
 ```
 (lambda (x) (* x x) 10) // 10 — IILE - immediately-invoked lambda expression
