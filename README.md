@@ -151,7 +151,7 @@ total = current + 150;
 
 We have this AST
 
-```
+```js
 {
   type: "Assignment",
   left: {
@@ -178,7 +178,7 @@ But it can be simplified
 - `left`: 1
 - `right`: 2
 
-```
+```js
 {
   0: "Assignment",
   1: {
