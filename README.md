@@ -264,7 +264,7 @@ All functions in Eva are closures.
 - Lambda expression / anonymous function
 
 ```
-(lambda (x) (* x x) 10) // 10 — IILE - immediately-invoked lambda expression
+(lambda (x) (* x x) 10) // 100 — IILE - immediately-invoked lambda expression
 ```
 
 - Design goals
