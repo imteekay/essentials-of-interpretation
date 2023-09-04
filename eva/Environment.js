@@ -4,7 +4,6 @@ class Environment {
     this.parent = parent;
   }
 
-  // Creates a variable with the given name and value
   define(name, value) {
     this.record[name] = value;
     return value;
