@@ -283,11 +283,11 @@ const GlobalEnvironment = new Environment({
     return op1 * op2;
   },
 
-  // comparison
-
   '/': (op1, op2) => {
     return op1 / op2;
   },
+
+  // comparison
 
   '>': (op1, op2) => {
     return op1 > op2;
