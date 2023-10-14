@@ -185,7 +185,11 @@ class Eva {
 
     if (exp[0] === 'import') {
       const [_tag, name] = exp;
-      const moduleSrc = this._resolveModule(name);
+      const moduleSrc = fs.readFileSync(
+        `${__dirname}/modules/${name}.eva`,
+        'utf-8',
+      );
+
       const body = evaParser.parse(`(begin ${moduleSrc})`);
       const moduleExp = ['module', name, body];
 
@@ -256,20 +260,6 @@ class Eva {
 
   _isVariableName(exp) {
     return typeof exp === 'string' && /^[+\-*/<>=a-zA-Z0-9_]*$/.test(exp);
-  }
-  _resolveModule(name) {
-    if (fs.existsSync(`${__dirname}/modules/${name}.eva`)) {
-      return fs.readFileSync(`${__dirname}/modules/${name}.eva`, 'utf-8');
-    } else {
-      const char = /^[A-Z]/.test(name)
-        ? name.charAt(0).toLowerCase()
-        : name.charAt(0).toUpperCase();
-
-      return fs.readFileSync(
-        `${__dirname}/modules/${char + name.slice(1)}.eva`,
-        'utf-8',
-      );
-    }
   }
 }
 
