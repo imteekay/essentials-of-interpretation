@@ -26,11 +26,10 @@ module.exports = (eva) => {
     eva,
     `(begin
       (var x 10)
-      (begin
-        (var result (begin
-                      (var y (+ x 10)
-                      y)))
-        result))`,
+      (var result (begin
+                    (var y (+ x 10)
+                    y)))
+      result)`,
     20,
   );
 
