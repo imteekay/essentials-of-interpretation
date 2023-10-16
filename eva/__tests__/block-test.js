@@ -38,8 +38,7 @@ module.exports = (eva) => {
     `(begin
       (var x 10)
       (begin
-        (set x 100)
-        x)
+        (set x 100))
       x)`,
     100,
   );
