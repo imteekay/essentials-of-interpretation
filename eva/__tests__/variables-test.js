@@ -1,7 +1,6 @@
 const assert = require('assert');
 
 module.exports = (eva) => {
-  // Variables
   assert.strictEqual(eva.eval(['var', 'x', 10]), 10);
   assert.strictEqual(eva.eval('x'), 10);
   assert.strictEqual(eva.eval(['var', 'y', 100]), 100);

@@ -10,17 +10,11 @@ class Eva {
     this._transformer = new Transformer();
   }
 
-  /**
-   * Evaluates global code wrapping into a block.
-   */
   evalGlobal(exp) {
     return this._evalBody(exp, this.global);
   }
 
   eval(exp, env = this.global) {
-    // ----------------------------------------
-    // Self-evaluating expressions
-
     if (this._isNumber(exp)) {
       return exp;
     }
@@ -29,29 +23,18 @@ class Eva {
       return exp.slice(1, -1);
     }
 
-    // ----------------------------------------
-    // Variable declaration
-
     if (exp[0] === 'begin') {
       const blockEnv = new Environment({}, env);
       return this._evalBlock(exp, blockEnv);
     }
-
-    // ----------------------------------------
-    // Variable declaration
 
     if (exp[0] === 'var') {
       const [_, name, value] = exp;
       return env.define(name, this.eval(value, env));
     }
 
-    // ----------------------------------------
-    // Variable update
-
     if (exp[0] === 'set') {
       const [_, ref, value] = exp;
-
-      // Assignment to a property
 
       if (ref[0] === 'prop') {
         const [_tag, instance, propName] = ref;
@@ -59,20 +42,12 @@ class Eva {
         return instanceEnv.define(propName, this.eval(value, env));
       }
 
-      // Simple assignment
-
       return env.assign(ref, this.eval(value, env));
     }
-
-    // ----------------------------------------
-    // Variable access
 
     if (this._isVariableName(exp)) {
       return env.lookup(exp);
     }
-
-    // ----------------------------------------
-    // if-expression
 
     if (exp[0] === 'if') {
       const [_tag, condition, consequent, alternate] = exp;
@@ -81,9 +56,6 @@ class Eva {
       }
       return this.eval(alternate, env);
     }
-
-    // ----------------------------------------
-    // while-expression
 
     if (exp[0] === 'while') {
       const [_, condition, body] = exp;
@@ -96,38 +68,24 @@ class Eva {
       return result;
     }
 
-    // ----------------------------------------
-    // function declarations
-    // syntatic sugar for lambda
-
     if (exp[0] === 'def') {
       const varExp = this._transformer.transformDefToVarLambda(exp);
       return this.eval(varExp, env);
     }
-
-    // ----------------------------------------
-    // switch expressions
-    // syntatic sugar for nested if expressions
 
     if (exp[0] === 'switch') {
       const ifExp = this._transformer.transformSwitchToIf(exp);
       return this.eval(ifExp, env);
     }
 
-    // ----------------------------------------
-    // Lambda function
-
     if (exp[0] === 'lambda') {
       const [_tag, params, body] = exp;
       return {
         params,
         body,
-        env, // closure
+        env,
       };
     }
-
-    // ----------------------------------------
-    // Class declaration
 
     if (exp[0] === 'class') {
       const [_tag, name, parent, body] = exp;
@@ -138,15 +96,10 @@ class Eva {
       return env.define(name, classEnv);
     }
 
-    // ----------------------------------------
-    // Super expression
     if (exp[0] === 'super') {
       const [_tag, className] = exp;
       return this.eval(className, env).parent;
     }
-
-    // ----------------------------------------
-    // Class instantiation
 
     if (exp[0] === 'new') {
       const classEnv = this.eval(exp[1], env);
@@ -161,17 +114,11 @@ class Eva {
       return instanceEnv;
     }
 
-    // ----------------------------------------
-    // Property access
-
     if (exp[0] === 'prop') {
       const [_tag, instance, name] = exp;
       const instanceEnv = this.eval(instance, env);
       return instanceEnv.lookup(name);
     }
-
-    // ----------------------------------------
-    // Module declaration
 
     if (exp[0] === 'module') {
       const [_tag, name, body] = exp;
@@ -179,9 +126,6 @@ class Eva {
       this._evalBody(body, moduleEnv);
       return env.define(name, moduleEnv);
     }
-
-    // ----------------------------------------
-    // Module import
 
     if (exp[0] === 'import') {
       const [_tag, name] = exp;
@@ -196,24 +140,13 @@ class Eva {
       return this.eval(moduleExp, this.global);
     }
 
-    // ----------------------------------------
-    // function calls
-    //
-    // (print "Hello World")
-    // (+ 1 1)
-    // (> 1 1)
-
     if (Array.isArray(exp)) {
       const fn = this.eval(exp[0], env);
       const args = exp.slice(1).map((expression) => this.eval(expression, env));
 
-      // Native functions
-
       if (typeof fn === 'function') {
         return fn(...args);
       }
-
-      // User-defined functions
 
       return this._callUserDefinedFunction(fn, args);
     }
@@ -269,8 +202,6 @@ const GlobalEnvironment = new Environment({
   false: false,
   VERSION: '0.1',
 
-  //math
-
   '+': (op1, op2) => {
     return op1 + op2;
   },
@@ -286,8 +217,6 @@ const GlobalEnvironment = new Environment({
   '/': (op1, op2) => {
     return op1 / op2;
   },
-
-  // comparison
 
   '>': (op1, op2) => {
     return op1 > op2;
@@ -308,8 +237,6 @@ const GlobalEnvironment = new Environment({
   '=': (op1, op2) => {
     return op1 === op2;
   },
-
-  // console output
 
   print: (...args) => {
     console.log(...args);
