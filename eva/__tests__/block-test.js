@@ -33,8 +33,14 @@ module.exports = (eva) => {
     20,
   );
 
-  assert.strictEqual(
-    eva.eval(['begin', ['var', 'x', 10], ['begin', ['set', 'x', 100]], 'x']),
+  test(
+    eva,
+    `(begin
+      (var x 10)
+      (begin
+        (set x 100)
+        x)
+      x)`,
     100,
   );
 
