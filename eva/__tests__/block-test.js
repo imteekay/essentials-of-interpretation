@@ -22,13 +22,15 @@ module.exports = (eva) => {
     10,
   );
 
-  assert.strictEqual(
-    eva.eval([
-      'begin',
-      ['var', 'x', 10],
-      ['var', 'result', ['begin', ['var', 'y', ['+', 'x', 10]], 'y']],
-      'result',
-    ]),
+  test(
+    eva,
+    `(begin
+      (var x 10)
+      (begin
+        (var result (begin
+                      (var y (+ x 10)
+                      y)))
+        result))`,
     20,
   );
 
