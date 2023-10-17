@@ -51,10 +51,9 @@ class Eva {
 
     if (exp[0] === 'if') {
       const [_tag, condition, consequent, alternate] = exp;
-      if (this.eval(condition, env)) {
-        return this.eval(consequent, env);
-      }
-      return this.eval(alternate, env);
+      return this.eval(condition, env)
+        ? this.eval(consequent, env)
+        : this.eval(alternate, env);
     }
 
     if (exp[0] === 'while') {
