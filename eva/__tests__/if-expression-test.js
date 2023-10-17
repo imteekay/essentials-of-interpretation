@@ -12,4 +12,40 @@ module.exports = (eva) => {
       y)`,
     30,
   );
+
+  test(
+    eva,
+    `(begin
+      (if (>= 10 10)
+        1
+        2))`,
+    1,
+  );
+
+  test(
+    eva,
+    `(begin
+      (if (<= 10 10)
+        1
+        2))`,
+    1,
+  );
+
+  test(
+    eva,
+    `(begin
+      (if (= 10 10)
+        1
+        2))`,
+    1,
+  );
+
+  test(
+    eva,
+    `(begin
+      (if (< 10 10)
+        1
+        2))`,
+    2,
+  );
 };
