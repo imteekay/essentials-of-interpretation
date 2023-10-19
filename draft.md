@@ -326,9 +326,118 @@ console.log(x); // 10
 
 ## Lecture 10: Built-in and Native functions
 
-- Math and comparison operators should be built-in functions
-- Because they are built-in, we don't need to interpret them, just use native code
-- They should be part of the global environment, it will hold all built-in functions
+In this lecture, we'll talk about built-in functions like math and comparison operations. Before, we implemented them in the evaluator, but they can also be built-in functions for the language.
+
+Because they are built-in function, they don't need to be interpreted, we just use native code.
+
+We do that using the help of the global environment we saw in the post [Scoping: Variables, Environments, and Blocks](/series/essentials-of-interpretation/variables-environments-and-blocks). We define there all these operations so we don't need to evaluate them.
+
+Before, they were evaluated like this:
+
+```js
+if (exp[0] === '+') {
+  return this.eval(exp[1], env) + this.eval(exp[2], env);
+}
+
+if (exp[0] === '*') {
+  return this.eval(exp[1], env) * this.eval(exp[2], env);
+}
+
+// ...
+```
+
+But now, we are going to move them to the global environment so any program can access them directly without the evaluation.
+
+```js
+const GlobalEnvironment = new Environment({
+  // ...
+
+  '+': (op1, op2) => {
+    return op1 + op2;
+  },
+
+  '-': (op1, op2 = null) => {
+    return op2 == null ? -op1 : op1 - op2;
+  },
+
+  '*': (op1, op2) => {
+    return op1 * op2;
+  },
+
+  '/': (op1, op2) => {
+    return op1 / op2;
+  },
+
+  // ...
+});
+```
+
+For all math operations, we just need to move them to the global environment and use native code without the evaluation. We do the same thing for the comparison operators.
+
+But now, that's the most interesting part. Let's implement function calls.
+
+When evaluating expressions, if it doesn't pass any of the conditions, it's a function call. Here's how the code look like:
+
+```
+(print "Hello World")
+(+ x 5)
+(> foo bar)
+```
+
+Here's the implementation:
+
+```js
+if (Array.isArray(exp)) {
+  const fn = this.eval(exp[0], env);
+  const args = exp.slice(1).map((expression) => this.eval(expression, env));
+
+  if (typeof fn === 'function') {
+    return fn(...args);
+  }
+}
+```
+
+If it's a function call, the expression is just an array. Then, we do two things:
+
+- Evaluate the function name: it will search for the function definition in the environment (it could be in the local or the global environment)
+- Evaluate the arguments: it just gets the rest of the expression, evaluate each of them and return them in a list.
+
+That way, we have the function and the parameters. So, we just need to call the function, passing the parameters, and return the result from the evaluator.
+
+We also make sure that the function object is a `function` using this runtime check with the help of the `typeof`.
+
+Before writing the tests, let's just extend the global environment with one more built-in function, the `print`.
+
+```js
+const GlobalEnvironment = new Environment({
+  // ...
+
+  print: (...args) => {
+    console.log(...args);
+  },
+
+  // ...
+});
+```
+
+Here are the tests:
+
+```js
+// print
+test(eva, `(print "Hello" "World")`);
+
+// math operators
+test(eva, `(+ 1 5)`, 6);
+test(eva, `(+ (+ 2 3) 5)`, 10);
+test(eva, `(+ (* 2 3) 5)`, 11);
+
+// comparison operators
+test(eva, `(> 1 5)`, false);
+test(eva, `(< 1 5)`, true);
+test(eva, `(>= 5 5)`, true);
+test(eva, `(<= 5 5)`, true);
+test(eva, `(= 5 5)`, true);
+```
 
 ## Lecture 11: User-defined functions, Activation Records and Closures
 
